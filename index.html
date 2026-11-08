@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>КиберСтарт — интерактивные wireframes</title>
+  <style>
+    :root {
+      --ink: #263238;
+      --muted: #718087;
+      --line: #d8dfe1;
+      --paper: #ffffff;
+      --canvas: #f3f5f5;
+      --accent: #c77a32;
+      --accent-soft: #f8eee3;
+      --green: #58826c;
+      --shadow: 0 8px 26px rgba(33, 48, 54, .07);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--canvas); font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { min-height: 100vh; }
+    .topbar { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 clamp(18px, 4vw, 56px); background: var(--paper); border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: -.02em; font-size: 18px; white-space: nowrap; }
+    .brand-mark { width: 32px; height: 32px; display: grid; place-items: center; border: 2px solid var(--ink); border-radius: 9px 9px 14px 14px; font-size: 15px; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .avatar { width: 34px; height: 34px; display: grid; place-items: center; background: #e8ecec; border: 1px solid var(--line); border-radius: 50%; font-size: 12px; font-weight: 700; }
+    .app { display: grid; grid-template-columns: 224px minmax(0, 1fr); min-height: calc(100vh - 68px); }
+    .sidebar { background: #fff; border-right: 1px solid var(--line); padding: 24px 14px; }
+    .side-label { padding: 0 12px; color: #9aa5a9; font-size: 10px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    .nav { display: grid; gap: 5px; margin-top: 12px; }
+    .nav button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 12px; color: #65737a; background: transparent; border: 0; border-radius: 9px; text-align: left; }
+    .nav button:hover, .nav button.active { color: var(--ink); background: var(--accent-soft); }
+    .nav-icon { width: 20px; text-align: center; font-size: 15px; }
+    .side-note { margin: 34px 8px 0; padding: 14px; color: #758087; border: 1px dashed #cbd3d5; border-radius: 10px; font-size: 12px; }
+    main { width: min(1180px, 100%); margin: 0 auto; padding: 32px clamp(18px, 4vw, 52px) 56px; }
+    .eyebrow { margin-bottom: 7px; color: var(--muted); font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(25px, 3vw, 34px); line-height: 1.15; letter-spacing: -.035em; }
+    h2 { margin: 0 0 14px; font-size: 18px; letter-spacing: -.02em; }
+    h3 { margin: 0 0 7px; font-size: 16px; }
+    p { margin: 0; }
+    .subhead { margin-top: 8px; color: var(--muted); }
+    .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 25px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 9px 15px; color: var(--ink); background: #fff; border: 1px solid #cbd3d5; border-radius: 8px; font-weight: 650; transition: .15s ease; }
+    .btn:hover { border-color: #8e9a9e; transform: translateY(-1px); }
+    .btn.primary { color: #fff; background: var(--ink); border-color: var(--ink); }
+    .btn.primary:hover { background: #3c4d54; }
+    .btn.accent { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .btn.small { min-height: 34px; padding: 6px 11px; font-size: 13px; }
+    .link-button { padding: 0; color: #8b572a; background: none; border: 0; font-weight: 650; }
+    .grid { display: grid; gap: 16px; }
+    .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 24px; }
+    .two-col { grid-template-columns: minmax(0, 1.5fr) minmax(245px, .85fr); }
+    .course-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+    .stat { padding: 18px 20px; }
+    .stat-label { color: var(--muted); font-size: 13px; }
+    .stat-value { margin-top: 5px; font-size: 27px; font-weight: 750; letter-spacing: -.04em; }
+    .stat-foot { margin-top: 2px; color: var(--muted); font-size: 12px; }
+    .section-card { padding: 20px; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 15px; }
+    .section-title h2 { margin: 0; }
+    .course-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid #edf0f0; }
+    .course-icon { display: grid; place-items: center; width: 42px; height: 42px; color: #526168; background: #f0f2f2; border: 1px solid #dce2e3; border-radius: 10px; font-size: 18px; }
+    .course-meta { color: var(--muted); font-size: 12px; }
+    .progress-line { height: 6px; overflow: hidden; background: #edf0f0; border-radius: 99px; }
+    .progress-line span { display: block; height: 100%; background: var(--green); border-radius: inherit; }
+    .progress-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 36px; align-items: center; gap: 9px; margin-top: 11px; color: var(--muted); font-size: 11px; }
+    .notice { padding: 15px; background: #fbf7f1; border: 1px dashed #d8b995; border-radius: 10px; }
+    .notice strong { display: block; margin-bottom: 4px; }
+    .notice p { color: #74695e; font-size: 13px; }
+    .course-card { display: flex; flex-direction: column; min-height: 246px; padding: 19px; }
+    .course-card .course-icon { margin-bottom: 14px; }
+    .course-card p { color: var(--muted); font-size: 13px; }
+    .course-card .course-meta { margin: 12px 0 16px; }
+    .course-card .btn { margin-top: auto; }
+    .tag { display: inline-flex; align-items: center; padding: 4px 8px; color: #666f73; background: #f1f3f3; border: 1px solid #e1e5e5; border-radius: 99px; font-size: 11px; font-weight: 650; }
+    .filters { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 20px 0; }
+    .filter-chip { padding: 7px 12px; color: #67747a; background: #fff; border: 1px solid var(--line); border-radius: 99px; font-size: 12px; }
+    .filter-chip.active { color: var(--ink); background: var(--accent-soft); border-color: #e8c9a7; }
+    .search { width: min(250px, 100%); height: 38px; padding: 8px 12px; background: #fff; border: 1px solid var(--line); border-radius: 8px; outline: none; }
+    .search:focus, input:focus { border-color: #9ca8ac; box-shadow: 0 0 0 3px rgba(120, 136, 142, .12); }
+    .module-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .lesson-list { padding: 12px; }
+    .lesson-list h3 { padding: 7px 8px 13px; }
+    .lesson { display: flex; gap: 10px; padding: 11px 9px; color: #68767c; border-radius: 8px; font-size: 13px; }
+    .lesson.current { color: var(--ink); background: var(--accent-soft); font-weight: 700; }
+    .lesson.done .lesson-check { color: var(--green); }
+    .lesson-check { width: 18px; flex: 0 0 18px; }
+    .module-content { padding: 25px; }
+    .module-content h2 { margin-top: 23px; }
+    .module-content p { color: #59686f; }
+    .placeholder { min-height: 115px; margin: 18px 0; display: grid; place-items: center; color: #849095; background: repeating-linear-gradient(135deg,#f8f9f9,#f8f9f9 10px,#f0f2f2 10px,#f0f2f2 20px); border: 1px dashed #c9d1d3; border-radius: 9px; text-align: center; font-size: 12px; }
+    .callout { margin: 18px 0; padding: 15px 17px; background: #f6f7f7; border-left: 3px solid #a7b1b4; border-radius: 5px; color: #56656b; }
+    .module-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .quiz-card { max-width: 760px; margin: 0 auto; padding: clamp(20px, 4vw, 34px); }
+    .quiz-top { display: flex; justify-content: space-between; gap: 14px; color: var(--muted); font-size: 13px; }
+    .quiz-progress { height: 7px; margin: 13px 0 26px; background: #edf0f0; border-radius: 99px; }
+    .quiz-progress span { display: block; width: 33%; height: 100%; background: var(--accent); border-radius: inherit; }
+    .question { margin-bottom: 18px; font-size: 20px; font-weight: 700; line-height: 1.35; }
+    .answers { display: grid; gap: 10px; }
+    .answer { display: flex; align-items: center; gap: 12px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: 9px; text-align: left; }
+    .answer:hover, .answer.selected { border-color: #bd8a5b; background: #fdf9f5; }
+    .radio { width: 17px; height: 17px; flex: 0 0 17px; border: 1.5px solid #9ca8ac; border-radius: 50%; }
+    .answer.selected .radio { border: 5px solid var(--accent); }
+    .quiz-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 23px; }
+    .result { margin-top: 18px; padding: 16px; background: #eef5f0; border: 1px solid #d1e1d5; border-radius: 9px; }
+    .lab-terminal { margin: 15px 0; padding: 15px; color: #dce7e8; background: #263238; border-radius: 8px; font: 13px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .terminal-prompt { color: #b6d2bb; }
+    .form-row { display: grid; gap: 6px; margin-bottom: 15px; }
+    .form-row label { font-size: 13px; font-weight: 650; }
+    .form-row input { width: 100%; height: 42px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; outline: none; }
+    .auth-page { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at 80% 15%, #f7eadb 0, transparent 27%), var(--canvas); }
+    .auth-wrap { width: min(920px, 100%); display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 18px 55px rgba(33,48,54,.1); }
+    .auth-aside { display: flex; flex-direction: column; justify-content: space-between; min-height: 510px; padding: 34px; background: #eef1f1; border-right: 1px solid var(--line); }
+    .auth-aside h1 { max-width: 360px; margin: 38px 0 13px; font-size: 31px; }
+    .auth-aside p { max-width: 360px; color: #67747a; }
+    .auth-illustration { display: grid; place-items: center; min-height: 150px; margin-top: 24px; color: #879397; border: 1px dashed #b7c0c2; border-radius: 12px; background: repeating-linear-gradient(135deg,#f0f2f2,#f0f2f2 12px,#e9eded 12px,#e9eded 24px); font-size: 13px; text-align: center; }
+    .auth-form { align-self: center; padding: 42px clamp(25px, 5vw, 54px); }
+    .auth-form h2 { margin-bottom: 5px; font-size: 24px; }
+    .auth-form .subhead { margin-bottom: 25px; font-size: 13px; }
+    .auth-switch { margin-top: 18px; color: var(--muted); font-size: 13px; text-align: center; }
+    .auth-switch button { margin-left: 3px; }
+    .auth-demo { margin-top: 15px; color: #8a9599; font-size: 11px; text-align: center; }
+    .toast { position: fixed; right: 20px; bottom: 20px; z-index: 5; max-width: 340px; padding: 13px 17px; color: #fff; background: #34444a; border-radius: 9px; box-shadow: var(--shadow); }
+    [hidden] { display: none !important; }
+    @media (max-width: 900px) { .course-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .stats { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    @media (max-width: 700px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: sticky; top: 0; z-index: 3; padding: 7px 10px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .side-label, .side-note { display: none; }
+      .nav { display: flex; width: max-content; gap: 4px; margin: 0; }
+      .nav button { width: auto; padding: 9px 11px; font-size: 12px; }
+      .nav-icon { width: auto; }
+      main { padding-top: 24px; }
+      .two-col, .module-layout { grid-template-columns: 1fr; }
+      .lesson-list { display: none; }
+      .course-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; gap: 9px; }
+      .stat { padding: 14px 16px; }
+      .stat-value { font-size: 22px; }
+      .auth-wrap { grid-template-columns: 1fr; }
+      .auth-aside { min-height: auto; padding: 23px; }
+      .auth-aside h1 { margin: 24px 0 8px; font-size: 25px; }
+      .auth-illustration { min-height: 86px; margin-top: 15px; }
+      .auth-form { padding: 28px 24px; }
+      .page-head { align-items: flex-start; flex-direction: column; }
+      .course-row { grid-template-columns: 42px minmax(0,1fr); }
+      .course-row .btn { grid-column: 2; justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <section class="auth-page" id="authScreen" hidden>
+    <div class="auth-wrap">
+      <aside class="auth-aside">
+        <div>
+          <div class="brand"><span class="brand-mark">⌁</span> КиберСтарт</div>
+          <h1>Учись защищать цифровой мир</h1>
+          <p>Теория, тесты и практические задания в безопасной учебной среде.</p>
+          <div class="auth-illustration">Место для иллюстрации<br>кибербезопасности</div>
+        </div>
+        <span class="tag">Учебная платформа · БГУ</span>
+      </aside>
+      <div class="auth-form">
+        <div class="eyebrow" id="authEyebrow">Добро пожаловать</div>
+        <h2 id="authTitle">Вход в аккаунт</h2>
+        <p class="subhead" id="authSubtitle">Продолжи обучение с того места, где остановился.</p>
+        <form id="authForm">
+          <div class="form-row" id="nameField" hidden><label for="fullName">Имя и фамилия</label><input id="fullName" placeholder="Например, Иван Иванов"></div>
+          <div class="form-row"><label for="email">Электронная почта</label><input id="email" type="email" placeholder="name@example.com" required></div>
+          <div class="form-row"><label for="password">Пароль</label><input id="password" type="password" placeholder="Не менее 8 символов" required></div>
+          <button class="btn primary" type="submit" style="width:100%;margin-top:5px" id="authSubmit">Войти</button>
+        </form>
+        <p class="auth-switch"><span id="switchCopy">Нет аккаунта?</span><button class="link-button" id="authToggle" type="button">Зарегистрироваться</button></p>
+        <p class="auth-demo">Для прототипа подойдут любые данные</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="shell" id="appShell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">⌁</span> КиберСтарт</div>
+      <div class="top-actions"><span class="tag">Студент</span><span class="avatar">АИ</span></div>
+    </header>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="side-label">Обучение</div>
+        <nav class="nav" aria-label="Основная навигация">
+          <button data-page="dashboard"><span class="nav-icon">⌂</span>Обзор</button>
+          <button data-page="catalog"><span class="nav-icon">▤</span>Курсы</button>
+          <button data-page="labs"><span class="nav-icon">⌘</span>Лаборатории</button>
+        </nav>
+        <div class="side-note"><strong>Учебный стенд</strong><br>Практические задания запускаются в изолированной среде.</div>
+      </aside>
+      <main>
+        <section class="view" id="dashboardView">
+          <div class="page-head"><div><div class="eyebrow">Личный кабинет</div><h1>Привет, Алексей!</h1><p class="subhead">Продолжай изучать кибербезопасность — ты хорошо продвигаешься.</p></div><button class="btn" id="profileButton">Профиль ↗</button></div>
+          <div class="grid stats">
+            <article class="card stat"><div class="stat-label">Активные курсы</div><div class="stat-value">2</div><div class="stat-foot">из 3 доступных</div></article>
+            <article class="card stat"><div class="stat-label">Завершено уроков</div><div class="stat-value">7</div><div class="stat-foot">из 18 в курсах</div></article>
+            <article class="card stat"><div class="stat-label">Средний результат</div><div class="stat-value">86%</div><div class="stat-foot">по последним тестам</div></article>
+          </div>
+          <div class="grid two-col">
+            <section class="card section-card">
+              <div class="section-title"><h2>Продолжить обучение</h2><button class="link-button" data-go="catalog">Все курсы →</button></div>
+              <div class="course-row"><div class="course-icon">⌑</div><div><h3>Основы сетевой безопасности</h3><div class="course-meta">Модуль 2 из 5 · около 20 минут</div><div class="progress-wrap"><div class="progress-line"><span style="width:42%"></span></div><span>42%</span></div></div><button class="btn small primary" data-go="module">Продолжить</button></div>
+              <div class="course-row"><div class="course-icon">◇</div><div><h3>Веб-уязвимости</h3><div class="course-meta">Модуль 1 из 4 · около 15 минут</div><div class="progress-wrap"><div class="progress-line"><span style="width:18%"></span></div><span>18%</span></div></div><button class="btn small" data-go="module">Открыть</button></div>
+            </section>
+            <aside class="card section-card">
+              <div class="section-title"><h2>Следующий шаг</h2></div>
+              <div class="notice"><strong>Практика: анализ сетевого трафика</strong><p>Закрепи тему и попробуй найти подозрительный запрос в учебном логе.</p></div>
+              <button class="btn accent" data-go="labs" style="width:100%;margin-top:14px">Перейти к лаборатории</button>
+              <div style="height:18px"></div><div class="section-title"><h2>Последний результат</h2></div><p style="color:var(--muted);font-size:13px">Тест «Модель OSI» <strong style="color:var(--ink)">· 8 из 10</strong><br><span style="font-size:12px">Сегодня, 10:42</span></p>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="catalogView" hidden>
+          <div class="page-head"><div><div class="eyebrow">База знаний</div><h1>Каталог курсов</h1><p class="subhead">Выбери тему и проходи уроки в удобном темпе.</p></div><span class="tag">3 курса</span></div>
+          <div class="filters"><input class="search" id="courseSearch" placeholder="⌕  Найти курс..." aria-label="Найти курс"><button class="filter-chip active" data-filter="all">Все курсы</button><button class="filter-chip" data-filter="network">Сети</button><button class="filter-chip" data-filter="crypto">Криптография</button><button class="filter-chip" data-filter="web">Веб-безопасность</button></div>
+          <div class="grid course-grid" id="courseGrid">
+            <article class="card course-card" data-category="network" data-search="основы сетевой безопасности сети"><div class="course-icon">⌑</div><div><span class="tag">Сети</span></div><h3 style="margin-top:11px">Основы сетевой безопасности</h3><p>Модель OSI, протоколы и базовые способы защиты сети.</p><div class="course-meta">5 модулей · 3 теста · Начальный</div><button class="btn primary" data-go="module">Открыть курс →</button></article>
+            <article class="card course-card" data-category="crypto" data-search="введение в криптографию шифрование"><div class="course-icon">◇</div><div><span class="tag">Криптография</span></div><h3 style="margin-top:11px">Введение в криптографию</h3><p>Разберись в симметричном шифровании, хешах и ключах.</p><div class="course-meta">4 модуля · 2 теста · Начальный</div><button class="btn" data-go="module">Открыть курс →</button></article>
+            <article class="card course-card" data-category="web" data-search="веб уязвимости owasp безопасность"><div class="course-icon">⌘</div><div><span class="tag">Веб-безопасность</span></div><h3 style="margin-top:11px">Веб-уязвимости и OWASP</h3><p>Познакомься с типичными рисками веб-приложений.</p><div class="course-meta">6 модулей · 4 теста · Средний</div><button class="btn" data-go="module">Открыть курс →</button></article>
+          </div>
+          <p id="noCourses" hidden style="padding:24px;text-align:center;color:var(--muted)">Курсы не найдены. Попробуй изменить запрос.</p>
+        </section>
+
+        <section class="view" id="moduleView" hidden>
+          <div class="page-head"><div><div class="eyebrow"><button class="link-button" data-go="catalog">Каталог</button> / Основы сетевой безопасности</div><h1>Модель OSI и сетевые протоколы</h1><p class="subhead">Модуль 2 · 15 минут · Теория</p></div><span class="tag">В процессе</span></div>
+          <div class="module-layout">
+            <aside class="card lesson-list"><h3>Содержание курса</h3><div class="lesson done"><span class="lesson-check">✓</span>Зачем нужна сетевая безопасность</div><div class="lesson current"><span class="lesson-check">◉</span>Модель OSI и протоколы</div><div class="lesson"><span class="lesson-check">○</span>Угрозы и защита сети</div><div class="lesson"><span class="lesson-check">○</span>Проверочный тест</div><div class="lesson"><span class="lesson-check">○</span>Практическая лаборатория</div><div class="progress-wrap" style="padding:8px"><div class="progress-line"><span style="width:42%"></span></div><span>2/5</span></div></aside>
+            <article class="card module-content">
+              <span class="tag">ТЕОРИЯ · 6 МИНУТ</span>
+              <h2>Как данные проходят через сеть?</h2>
+              <p>Модель OSI помогает описать передачу данных между устройствами. Она делит этот процесс на семь уровней: от физического сигнала до приложений, с которыми работает пользователь.</p>
+              <div class="placeholder">Схема: 7 уровней модели OSI<br>место для учебной иллюстрации</div>
+              <h2>Протоколы и их задачи</h2>
+              <p>На каждом уровне работают свои протоколы. Например, IP помогает доставить пакет до устройства, TCP управляет надёжной передачей, а HTTP используется для обмена данными в вебе.</p>
+              <div class="callout"><strong>Важно:</strong> защищённый протокол сам по себе не устраняет все риски. Безопасность зависит от настроек, обновлений и поведения пользователей.</div>
+              <div class="module-footer"><button class="btn" data-go="dashboard">← К обзору</button><button class="btn primary" data-go="quiz">Перейти к тесту →</button></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="quizView" hidden>
+          <div class="page-head"><div><div class="eyebrow">Основы сетевой безопасности / Модуль 2</div><h1>Проверочный тест</h1><p class="subhead">Проверь, как усвоился материал.</p></div><button class="btn" data-go="module">← К уроку</button></div>
+          <article class="card quiz-card">
+            <div class="quiz-top"><span>Вопрос <strong id="questionNumber">1</strong> из 3</span><span>Осталось: без ограничения</span></div><div class="quiz-progress"><span id="quizProgress"></span></div>
+            <div class="question" id="questionText">Какова основная задача модели OSI?</div>
+            <div class="answers" id="answerList">
+              <button class="answer" data-answer="wrong"><span class="radio"></span>Заменить все сетевые протоколы одним</button>
+              <button class="answer" data-answer="correct"><span class="radio"></span>Разделить сетевое взаимодействие на понятные уровни</button>
+              <button class="answer" data-answer="wrong"><span class="radio"></span>Ускорить работу компьютера</button>
+              <button class="answer" data-answer="wrong"><span class="radio"></span>Хранить пароли пользователей</button>
+            </div>
+            <div class="result" id="quizResult" hidden></div>
+            <div class="quiz-bottom"><span class="course-meta">Ответь на вопрос и нажми «Проверить»</span><button class="btn primary" id="checkAnswer">Проверить ответ</button></div>
+          </article>
+        </section>
+
+        <section class="view" id="labsView" hidden>
+          <div class="page-head"><div><div class="eyebrow">Практика</div><h1>Лабораторные задания</h1><p class="subhead">Безопасные упражнения в изолированной учебной среде.</p></div><span class="tag">1 доступно</span></div>
+          <div class="grid two-col">
+            <article class="card section-card">
+              <div class="section-title"><h2>Анализ сетевого трафика</h2><span class="tag">Начальный</span></div>
+              <p style="color:var(--muted)">Найди подозрительный запрос в учебном журнале и укажи его IP-адрес. Все данные вымышлены и находятся в локальном стенде.</p>
+              <div class="lab-terminal"><div><span class="terminal-prompt">student@lab:~$</span> cat access.log</div><div>10.0.0.12 GET /index.html 200</div><div>10.0.0.18 GET /login 200</div><div>203.0.113.77 GET /admin?user=' OR 1=1 403</div><div>10.0.0.12 POST /login 200</div></div>
+              <div class="form-row"><label for="labAnswer">Какой IP связан с подозрительным запросом?</label><input id="labAnswer" placeholder="Например, 10.0.0.12"></div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" id="submitLab">Отправить ответ</button><button class="btn" id="resetLab">Сбросить стенд</button></div>
+              <div class="result" id="labResult" hidden></div>
+            </article>
+            <aside class="card section-card">
+              <div class="section-title"><h2>Перед началом</h2></div>
+              <p style="color:var(--muted);font-size:13px">В настоящей платформе задание запускается в отдельном контейнере. В этом прототипе показан только интерфейс прохождения.</p>
+              <div style="height:18px"></div><div class="notice"><strong>Цель задания</strong><p>Научиться замечать признаки подозрительной активности в журнале запросов.</p></div>
+              <div style="height:18px"></div><h3>Ход выполнения</h3><div class="lesson"><span class="lesson-check">1</span>Ознакомься с заданием</div><div class="lesson"><span class="lesson-check">2</span>Изучи журнал запросов</div><div class="lesson"><span class="lesson-check">3</span>Отправь ответ на проверку</div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" hidden></div>
+  <script>
+    const appShell = document.getElementById('appShell');
+    const authScreen = document.getElementById('authScreen');
+    const pages = ['dashboard', 'catalog', 'module', 'quiz', 'labs'];
+    let currentPage = 'dashboard';
+    let isRegister = false;
+    let selectedAnswer = null;
+    let quizQuestion = 1;
+    let quizScore = 0;
+    const questions = [
+      { text: 'Какова основная задача модели OSI?', answers: [['Заменить все сетевые протоколы одним', false], ['Разделить сетевое взаимодействие на понятные уровни', true], ['Ускорить работу компьютера', false], ['Хранить пароли пользователей', false]] },
+      { text: 'Какой протокол обычно отвечает за надёжную доставку данных?', answers: [['TCP', true], ['HTML', false], ['DNS', false], ['CSS', false]] },
+      { text: 'Для чего используется HTTPS?', answers: [['Для шифрования обмена данными с сайтом', true], ['Для создания резервной копии сайта', false], ['Для ускорения Wi-Fi', false], ['Для настройки IP-адреса', false]] }
+    ];
+    function navigate(page) {
+      if (page === 'login') { showAuth(false); return; }
+      currentPage = page;
+      pages.forEach(name => document.getElementById(name + 'View').hidden = name !== page);
+      document.querySelectorAll('.nav button').forEach(button => button.classList.toggle('active', button.dataset.page === page || (page === 'module' || page === 'quiz') && button.dataset.page === 'catalog'));
+      appShell.hidden = false; authScreen.hidden = true; window.scrollTo(0, 0);
+    }
+    function showAuth(register) {
+      isRegister = register; appShell.hidden = true; authScreen.hidden = false;
+      document.getElementById('nameField').hidden = !register;
+      document.getElementById('authEyebrow').textContent = register ? 'Начни обучение' : 'Добро пожаловать';
+      document.getElementById('authTitle').textContent = register ? 'Создать аккаунт' : 'Вход в аккаунт';
+      document.getElementById('authSubtitle').textContent = register ? 'Заполни данные, чтобы сохранить прогресс обучения.' : 'Продолжи обучение с того места, где остановился.';
+      document.getElementById('authSubmit').textContent = register ? 'Зарегистрироваться' : 'Войти';
+      document.getElementById('switchCopy').textContent = register ? 'Уже есть аккаунт?' : 'Нет аккаунта?';
+      document.getElementById('authToggle').textContent = register ? 'Войти' : 'Зарегистрироваться';
+      window.scrollTo(0, 0);
+    }
+    document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => navigate(button.dataset.go)));
+    document.querySelectorAll('.nav button').forEach(button => button.addEventListener('click', () => navigate(button.dataset.page)));
+    document.getElementById('profileButton').addEventListener('click', () => showToast('Профиль пользователя — экран в разработке прототипа.'));
+    document.getElementById('authToggle').addEventListener('click', () => showAuth(!isRegister));
+    document.getElementById('authForm').addEventListener('submit', event => { event.preventDefault(); navigate('dashboard'); showToast(isRegister ? 'Аккаунт создан. Добро пожаловать!' : 'Вход выполнен.'); });
+    function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.hidden = false; clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.hidden = true, 2800); }
+    let activeFilter = 'all';
+    function filterCourses() {
+      const query = document.getElementById('courseSearch').value.trim().toLowerCase(); let visible = 0;
+      document.querySelectorAll('.course-card').forEach(card => { const match = (activeFilter === 'all' || card.dataset.category === activeFilter) && card.dataset.search.includes(query); card.hidden = !match; if (match) visible++; });
+      document.getElementById('noCourses').hidden = visible > 0;
+    }
+    document.getElementById('courseSearch').addEventListener('input', filterCourses);
+    document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => { activeFilter = button.dataset.filter; document.querySelectorAll('[data-filter]').forEach(item => item.classList.toggle('active', item === button)); filterCourses(); }));
+    function renderQuestion() {
+      const question = questions[quizQuestion - 1]; selectedAnswer = null;
+      document.getElementById('questionNumber').textContent = quizQuestion;
+      document.getElementById('questionText').textContent = question.text;
+      document.getElementById('quizProgress').style.width = `${Math.round(quizQuestion / questions.length * 100)}%`;
+      document.getElementById('answerList').innerHTML = question.answers.map(([label, correct]) => `<button class="answer" data-answer="${correct ? 'correct' : 'wrong'}"><span class="radio"></span>${label}</button>`).join('');
+      document.querySelectorAll('.answer').forEach(button => button.addEventListener('click', () => { selectedAnswer = button.dataset.answer; document.querySelectorAll('.answer').forEach(answer => answer.classList.toggle('selected', answer === button)); }));
+      document.getElementById('quizResult').hidden = true;
+      document.getElementById('checkAnswer').textContent = 'Проверить ответ';
+      document.querySelector('.quiz-bottom .course-meta').textContent = 'Ответь на вопрос и нажми «Проверить»';
+    }
+    document.getElementById('checkAnswer').addEventListener('click', () => {
+      const result = document.getElementById('quizResult');
+      if (!selectedAnswer) { showToast('Сначала выбери вариант ответа.'); return; }
+      if (['Следующий вопрос →', 'Завершить тест →'].includes(document.getElementById('checkAnswer').textContent)) {
+        if (quizQuestion < questions.length) { quizQuestion++; renderQuestion(); return; }
+        navigate('dashboard'); showToast(`Тест завершён: ${quizScore} из ${questions.length} правильных ответов.`); quizQuestion = 1; quizScore = 0; return;
+      }
+      const correct = selectedAnswer === 'correct'; if (correct) quizScore++;
+      result.innerHTML = correct ? '<strong>Верно!</strong> Отлично, можно переходить дальше.' : '<strong>Пока неверно.</strong> Перечитай материал урока и попробуй ещё раз.';
+      result.hidden = false;
+      if (correct) { document.getElementById('checkAnswer').textContent = quizQuestion === questions.length ? 'Завершить тест →' : 'Следующий вопрос →'; }
+      else { document.querySelector('.quiz-bottom .course-meta').textContent = 'Выбери другой вариант ответа'; }
+    });
+    document.getElementById('submitLab').addEventListener('click', () => { const value = document.getElementById('labAnswer').value.trim(); const result = document.getElementById('labResult'); result.hidden = false; result.innerHTML = value === '203.0.113.77' ? '<strong>Верно!</strong> Подозрительный запрос найден. Задание выполнено.' : '<strong>Проверь ответ.</strong> Ищи запрос с необычным параметром в строке журнала.'; });
+    document.getElementById('resetLab').addEventListener('click', () => { document.getElementById('labAnswer').value = ''; document.getElementById('labResult').hidden = true; showToast('Задание сброшено.'); });
+    showAuth(false);
+  </script>
+</body>
+</html>
+
